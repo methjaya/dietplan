@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sahansa's Personalized Diet Plan</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Sinhala:wght@400;700&family=Inter:wght@400;700&display=swap');
+        
+        body {
+            font-family: 'Inter', 'Noto Sans Sinhala', sans-serif;
+            background-color: #f0f7f4;
+            scroll-behavior: smooth;
+        }
+        
+        .meal-card {
+            transition: transform 0.3s ease, shadow 0.3s ease;
+        }
+        
+        .meal-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+
+        .allowed-item {
+            border-left: 4px solid #10b981;
+        }
+
+        .not-allowed-item {
+            border-left: 4px solid #ef4444;
+        }
+
+        .gradient-bg {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        }
+
+        .lang-switch-btn {
+            backdrop-filter: blur(8px);
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .lang-switch-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+
+    <!-- Header Section -->
+    <header class="gradient-bg text-white py-12 px-4 text-center shadow-lg relative">
+        <!-- Language Switcher -->
+        <div class="absolute top-4 right-4">
+            <button onclick="toggleLanguage()" class="lang-switch-btn text-white px-4 py-2 rounded-full font-bold flex items-center space-x-2 transition shadow-sm">
+                <i class="fas fa-language text-xl"></i>
+                <span id="lang-btn-text">සිංහල</span>
+            </button>
+        </div>
+
+        <h1 id="main-title" class="text-3xl md:text-5xl font-bold mb-2">Healthy Diet Plan 🥗</h1>
+        <p id="main-subtitle" class="text-lg opacity-90 italic">Sahansa's Personalized diet plan</p>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-4 pb-20">
+
+        <!-- Navigation Tabs -->
+        <div class="flex justify-center space-x-2 md:space-x-4 my-8 sticky top-4 z-10 bg-white/90 backdrop-blur-md p-2 rounded-full shadow-lg max-w-2xl mx-auto border border-emerald-50">
+            <button onclick="scrollToSection('breakfast')" class="nav-item px-3 py-2 rounded-full hover:bg-emerald-100 text-emerald-700 font-bold transition text-sm md:text-base" data-key="nav-breakfast">Breakfast</button>
+            <button onclick="scrollToSection('lunch')" class="nav-item px-3 py-2 rounded-full hover:bg-emerald-100 text-emerald-700 font-bold transition text-sm md:text-base" data-key="nav-lunch">Lunch</button>
+            <button onclick="scrollToSection('dinner')" class="nav-item px-3 py-2 rounded-full hover:bg-emerald-100 text-emerald-700 font-bold transition text-sm md:text-base" data-key="nav-dinner">Dinner</button>
+            <button onclick="scrollToSection('fruits')" class="nav-item px-3 py-2 rounded-full hover:bg-emerald-100 text-emerald-700 font-bold transition text-sm md:text-base" data-key="nav-fruits">Fruits</button>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            
+            <!-- BREAKFAST SECTION -->
+            <section id="breakfast" class="meal-card bg-white rounded-2xl shadow-xl overflow-hidden border border-emerald-100">
+                <div class="bg-emerald-500 p-4 flex items-center justify-between text-white">
+                    <h2 class="text-xl md:text-2xl font-bold flex items-center">
+                        <span class="mr-2">🥣</span> <span data-key="section-breakfast">Breakfast</span>
+                    </h2>
+                    <i class="fas fa-sun text-2xl opacity-50"></i>
+                </div>
+                <div class="p-6">
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <h3 class="font-bold text-emerald-700 mb-3 border-b pb-1" data-key="allowed">Allowed</h3>
+                            <ul class="space-y-2" id="list-breakfast-allowed">
+                                <!-- JS injected -->
+                            </ul>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-red-600 mb-3 border-b pb-1" data-key="not-allowed">Not Allowed</h3>
+                            <ul class="space-y-2" id="list-breakfast-disallowed">
+                                <!-- JS injected -->
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- LUNCH SECTION -->
+            <section id="lunch" class="meal-card bg-white rounded-2xl shadow-xl overflow-hidden border border-orange-100">
+                <div class="bg-orange-500 p-4 flex items-center justify-between text-white">
+                    <h2 class="text-xl md:text-2xl font-bold flex items-center">
+                        <span class="mr-2">🍛</span> <span data-key="section-lunch">Lunch</span>
+                    </h2>
+                    <i class="fas fa-cloud-sun text-2xl opacity-50"></i>
+                </div>
+                <div class="p-6">
+                    <div class="mb-4 p-3 bg-orange-50 border-l-4 border-orange-500 rounded text-sm italic" id="lunch-special">
+                        <!-- JS injected -->
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <h3 class="font-bold text-emerald-700 mb-3 border-b pb-1" data-key="allowed">Allowed</h3>
+                            <ul class="space-y-1 text-sm" id="list-lunch-allowed">
+                                <!-- JS injected -->
+                            </ul>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-red-600 mb-3 border-b pb-1" data-key="not-allowed">Not Allowed</h3>
+                            <ul class="space-y-1 text-sm" id="list-lunch-disallowed">
+                                <!-- JS injected -->
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- DINNER SECTION -->
+            <section id="dinner" class="meal-card bg-white rounded-2xl shadow-xl overflow-hidden border border-indigo-100">
+                <div class="bg-indigo-600 p-4 flex items-center justify-between text-white">
+                    <h2 class="text-xl md:text-2xl font-bold flex items-center">
+                        <span class="mr-2">🥗</span> <span data-key="section-dinner">Dinner</span>
+                    </h2>
+                    <i class="fas fa-moon text-2xl opacity-50"></i>
+                </div>
+                <div class="p-6">
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <h3 class="font-bold text-emerald-700 mb-3 border-b pb-1" data-key="allowed">Allowed</h3>
+                            <ul class="space-y-2" id="list-dinner-allowed">
+                                <!-- JS injected -->
+                            </ul>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-red-600 mb-3 border-b pb-1" data-key="not-allowed">Not Allowed</h3>
+                            <ul class="space-y-2" id="list-dinner-disallowed">
+                                <!-- JS injected -->
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- FRUITS SECTION -->
+            <section id="fruits" class="meal-card bg-white rounded-2xl shadow-xl overflow-hidden border border-red-100">
+                <div class="bg-red-500 p-4 flex items-center justify-between text-white">
+                    <h2 class="text-xl md:text-2xl font-bold flex items-center">
+                        <span class="mr-2">🍎</span> <span data-key="section-fruits">Fruits</span>
+                    </h2>
+                    <i class="fas fa-apple-alt text-2xl opacity-50"></i>
+                </div>
+                <div class="p-6">
+                    <p class="text-sm text-gray-500 mb-4" data-key="fruit-limits">Daily recommended limits:</p>
+                    <div class="space-y-3" id="fruit-content">
+                        <!-- JS injected -->
+                    </div>
+                </div>
+            </section>
+
+        </div>
+
+        <!-- IMPORTANT INSTRUCTIONS -->
+        <section class="mt-12 bg-white rounded-3xl shadow-2xl p-8 border-4 border-emerald-500 relative overflow-visible">
+            <div class="absolute -top-6 left-1/2 -translate-x-1/2 md:left-10 md:translate-x-0 bg-emerald-500 text-white px-6 py-2 rounded-full font-bold text-xl shadow-lg whitespace-nowrap">
+                <span data-key="important-instr">Important Instructions</span> 📌
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-6 md:pt-4" id="instructions-grid">
+                <!-- JS injected -->
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-emerald-900 text-white py-8 text-center px-4">
+        <p class="opacity-70 text-sm mb-2" data-key="footer-quote">Health is the greatest wealth.</p>
+        <p class="text-xs opacity-50">&copy; 2026 Be Healthy with Sahansa</p>
+    </footer>
+
+    <script>
+        const translations = {
+            en: {
+                btnText: "සිංහල",
+                title: "Healthy Diet Plan 🥗",
+                subtitle: "Sahansa's Personalized diet plan",
+                allowed: "Allowed",
+                notAllowed: "Not Allowed",
+                navBreakfast: "Breakfast",
+                navLunch: "Lunch",
+                navDinner: "Dinner",
+                navFruits: "Fruits",
+                secBreakfast: "Breakfast",
+                secLunch: "Lunch",
+                secDinner: "Dinner",
+                secFruits: "Fruits",
+                fruitLimits: "Daily recommended limits:",
+                importantTitle: "Important Instructions",
+                footer: "Health is the greatest wealth.",
+                lunchSpecial: "<strong>Note:</strong> Red rice (only 1 cup). Fill the rest of the plate with vegetables.",
+                
+                breakfastAllowed: ["Oats with non-fat milk", "Kurakkan Roti", "Green leafy vegetables", "Unsweetened tea"],
+                breakfastDisallowed: ["Bread", "String hoppers", "Hoppers", "Flour-based foods", "Sugar / Jaggery"],
+                
+                lunchAllowed: ["Bitter gourd", "Beetroot", "Cucumber", "Beans", "Cabbage", "Leafy greens", "Fish (Best)", "Chicken"],
+                lunchDisallowed: ["Samba rice", "Pumpkin", "Jackfruit", "Breadfruit", "Potato", "Sweet potato", "Manioc", "Pork / Beef"],
+                
+                dinnerAllowed: ["Salad", "Cabbage + Cucumber", "Leafy greens", "Bitter gourd", "1 Boiled egg"],
+                dinnerDisallowed: ["Flour foods", "Sweet foods", "Sugar", "Sugar substitutes", "Jaggery"],
+
+                fruits: [
+                    { name: "Banana", limit: "1 per day" },
+                    { name: "Mango", limit: "1-inch slice" },
+                    { name: "Papaya", limit: "1-inch slice" },
+                    { name: "Guava", limit: "Allowed", special: true }
+                ],
+                fruitsNotAllowed: ["Apple", "Orange"],
+
+                instructions: [
+                    "Eat <strong>Thambukola</strong> at least once a week.",
+                    "Use <strong>Non-fat milk</strong> only.",
+                    "Eat vegetables <strong>Raw</strong> when possible.",
+                    "Maintain a <strong>balanced meal</strong> with enough protein.",
+                    "Eat <strong>Bitter gourd</strong> regularly for best results."
+                ]
+            },
+            si: {
+                btnText: "English",
+                title: "පෝෂණීය ආහාර සැලැස්ම 🥗",
+                subtitle: "සහන්සගේ පෞද්ගලික ආහාර සැලැස්ම",
+                allowed: "අනුමත",
+                notAllowed: "තහනම්",
+                navBreakfast: "උදෑසන",
+                navLunch: "දහවල්",
+                navDinner: "රාත්‍රී",
+                navFruits: "පලතුරු",
+                secBreakfast: "උදෑසන ආහාරය",
+                secLunch: "දහවල් ආහාරය",
+                secDinner: "රාත්‍රී ආහාරය",
+                secFruits: "පලතුරු",
+                fruitLimits: "දිනපතා භාවිත කළ හැකි සීමාවන්:",
+                importantTitle: "වැදගත් උපදෙස්",
+                footer: "නිරෝගිකම උතුම්ම සැපතයි.",
+                lunchSpecial: "<strong>විශේෂ:</strong> රතු බත් (1 කෝප්පයක් පමණි). ඉතිරි පිඟාන එළවළු වලින් පුරවන්න.",
+
+                breakfastAllowed: ["ඕට්ස් (නොන්-ෆැට් කිරි සමග)", "කුරක්කන් රොටි", "කොළ වර්ග", "සීනි නැති තේ"],
+                breakfastDisallowed: ["පාන් (Bread)", "ඉඳිආප්ප", "ආප්ප", "පිටි සහිත කෑම", "සීනි / හකුරු"],
+
+                lunchAllowed: ["කරවිල", "බීට්", "පිපිඤ්ඤා", "බෝංචි", "ගෝවා", "මැල්ලුම් / කොළ", "මාළු (හොඳම)", "කුකුල් මස්"],
+                lunchDisallowed: ["සම්බා සහල්", "වට්ටක්කා", "කොස්", "දෙල්", "අල", "බතල", "මඤ්ඤොක්කා", "ඌරු / ගව මස්"],
+
+                dinnerAllowed: ["සැලඩ් (Salad)", "ගෝවා + පිපිඤ්ඤා", "කොළ වර්ග", "කරවිල", "තම්බපු බිත්තර 1ක්"],
+                dinnerDisallowed: ["පිටි සහිත කෑම", "පැණි රස කෑම", "සීනි", "සීනි ආදේශක", "හකුරු"],
+
+                fruits: [
+                    { name: "කෙසෙල්", limit: "දිනකට 1යි" },
+                    { name: "අඹ", limit: "අඟලක කෑල්ලක්" },
+                    { name: "ගස්ලබු", limit: "අඟලක කෑල්ලක්" },
+                    { name: "පේර", limit: "අනුමතයි", special: true }
+                ],
+                fruitsNotAllowed: ["ඇපල්", "නාරං"],
+
+                instructions: [
+                    "සතියකට වරක්වත් <strong>තෙඹු කොළ</strong> ආහාරයට ගන්න.",
+                    "භාවිතා කළ යුත්තේ <strong>නොන්-ෆැට් (Non-fat)</strong> කිරි පමණි.",
+                    "එළවළු හැකි සෑම විටම <strong>නොපිස (Raw)</strong> ආහාරයට ගන්න.",
+                    "නිතරම <strong>සමබල ආහාර වේලක්</strong> පවත්වා ගන්න.",
+                    "<strong>කරවිල</strong> නිතිපතා ආහාරයට එක්කර ගන්න."
+                ]
+            }
+        };
+
+        let currentLang = 'en';
+
+        function toggleLanguage() {
+            currentLang = currentLang === 'en' ? 'si' : 'en';
+            updateUI();
+        }
+
+        function updateUI() {
+            const t = translations[currentLang];
+            
+            // Text values
+            document.getElementById('lang-btn-text').innerText = t.btnText;
+            document.getElementById('main-title').innerText = t.title;
+            document.getElementById('main-subtitle').innerText = t.subtitle;
+            document.getElementById('lunch-special').innerHTML = t.lunchSpecial;
+            
+            // Dynamic Keys
+            document.querySelectorAll('[data-key]').forEach(el => {
+                const key = el.getAttribute('data-key');
+                if (key === 'allowed') el.innerText = t.allowed;
+                if (key === 'not-allowed') el.innerText = t.notAllowed;
+                if (key === 'nav-breakfast') el.innerText = t.navBreakfast;
+                if (key === 'nav-lunch') el.innerText = t.navLunch;
+                if (key === 'nav-dinner') el.innerText = t.navDinner;
+                if (key === 'nav-fruits') el.innerText = t.navFruits;
+                if (key === 'section-breakfast') el.innerText = t.secBreakfast;
+                if (key === 'section-lunch') el.innerText = t.secLunch;
+                if (key === 'section-dinner') el.innerText = t.secDinner;
+                if (key === 'section-fruits') el.innerText = t.secFruits;
+                if (key === 'fruit-limits') el.innerText = t.fruitLimits;
+                if (key === 'important-instr') el.innerText = t.importantTitle;
+                if (key === 'footer-quote') el.innerText = t.footer;
+            });
+
+            // List Helpers
+            const renderList = (id, items, type) => {
+                const list = document.getElementById(id);
+                list.innerHTML = items.map(item => `
+                    <li class="${type === 'allowed' ? 'allowed-item' : 'not-allowed-item'} pl-2 bg-${type === 'allowed' ? 'emerald' : 'red'}-50 rounded py-1 transition-all hover:pl-3">
+                        ${item}
+                    </li>
+                `).join('');
+            };
+
+            renderList('list-breakfast-allowed', t.breakfastAllowed, 'allowed');
+            renderList('list-breakfast-disallowed', t.breakfastDisallowed, 'not-allowed');
+            renderList('list-lunch-allowed', t.lunchAllowed, 'allowed');
+            renderList('list-lunch-disallowed', t.lunchDisallowed, 'not-allowed');
+            renderList('list-dinner-allowed', t.dinnerAllowed, 'allowed');
+            renderList('list-dinner-disallowed', t.dinnerDisallowed, 'not-allowed');
+
+            // Fruits
+            const fruitDiv = document.getElementById('fruit-content');
+            let fruitHTML = t.fruits.map(f => `
+                <div class="flex items-center justify-between bg-gray-50 p-3 rounded-lg ${f.special ? 'border-2 border-emerald-200 shadow-sm' : ''}">
+                    <span class="flex items-center font-medium">
+                        <i class="fas ${f.special ? 'fa-check-circle text-emerald-500' : 'fa-caret-right text-orange-400'} mr-2"></i> ${f.name}
+                    </span>
+                    <span class="font-bold text-emerald-600">${f.limit}</span>
+                </div>
+            `).join('');
+            
+            fruitHTML += `<div class="grid grid-cols-2 gap-2 mt-2">`;
+            fruitHTML += t.fruitsNotAllowed.map(name => `
+                <div class="p-2 bg-red-50 text-red-600 rounded flex items-center text-xs">
+                    <i class="fas fa-times-circle mr-1"></i> ${name} ${currentLang === 'en' ? 'Not allowed' : 'තහනම්'}
+                </div>
+            `).join('');
+            fruitHTML += `</div>`;
+            fruitDiv.innerHTML = fruitHTML;
+
+            // Instructions
+            const instrGrid = document.getElementById('instructions-grid');
+            const icons = ['fa-leaf', 'fa-tint', 'fa-carrot', 'fa-balance-scale', 'fa-heartbeat'];
+            instrGrid.innerHTML = t.instructions.map((text, i) => `
+                <div class="flex items-start p-2">
+                    <div class="bg-emerald-100 p-2 rounded-lg mr-4"><i class="fas ${icons[i % icons.length]} text-emerald-600"></i></div>
+                    <p class="text-sm md:text-base">${text}</p>
+                </div>
+            `).join('');
+        }
+
+        function scrollToSection(id) {
+            const element = document.getElementById(id);
+            if (element) {
+                const headerOffset = 100;
+                const elementPosition = element.getBoundingClientRect().top;
+                const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+                window.scrollTo({ top: offsetPosition, behavior: "smooth" });
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            updateUI();
+        });
+    </script>
+</body>
+</html>
